@@ -15,7 +15,6 @@ namespace Space
         public Form1()
         {
             InitializeComponent();
-            //this.CenterToScreen();
             this.MinimizeBox = false;
             this.MaximizeBox = false;
             this.BackColor = Color.MediumPurple;
