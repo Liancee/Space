@@ -20,6 +20,7 @@ namespace Space
             this.BackColor = Color.MediumPurple;
             this.pictureBox1.BackColor = Color.MediumPurple;
             LastBitmap = Properties.Resources.blackheart60x60;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
