@@ -11,19 +11,22 @@ namespace Space
     public partial class Form1 : Form
     {
         private double FreedSpace { get; set; }
+        private Bitmap LastBitmap { get; set; }
         public Form1()
         {
             InitializeComponent();
-            this.CenterToScreen();
+            //this.CenterToScreen();
             this.MinimizeBox = false;
             this.MaximizeBox = false;
             this.BackColor = Color.MediumPurple;
             this.pictureBox1.BackColor = Color.MediumPurple;
+            LastBitmap = Properties.Resources.blackheart60x60;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = Properties.Resources.sparklingheart60x60;
+            this.pictureBox1.Image = Properties.Resources.sparklingheart60x60;
+            LastBitmap = Properties.Resources.sparklingheart60x60;
 
             FreedSpace = new BinSize().GetBinSize();
             // empty bin
@@ -31,7 +34,7 @@ namespace Space
 
             FreedSpace += GetDirectorySize(KnownFolders.GetPath(KnownFolder.Downloads));
             // empty downloads
-            //Empty(new DirectoryInfo(KnownFolders.GetPath(KnownFolder.Downloads)));
+            Empty(new DirectoryInfo(KnownFolders.GetPath(KnownFolder.Downloads)));
 
             if (checkBox1.Checked)
             {
@@ -122,15 +125,8 @@ namespace Space
                 SizeSuffixes[mag]);
         }
 
-        private void pictureBox1_MouseHover(object sender, EventArgs e)
-        {
-            pictureBox1.Image = Properties.Resources.redheart60x60;
-        }
+        private void pictureBox1_MouseHover(object sender, EventArgs e) => pictureBox1.Image = Properties.Resources.redheart60x60;
         
-
-        private void pictureBox1_MouseLeave(object sender, EventArgs e)
-        {
-            pictureBox1.Image = Properties.Resources.blackheart60x60;
-        }
+        private void pictureBox1_MouseLeave(object sender, EventArgs e) => pictureBox1.Image = LastBitmap;
     }
 }
