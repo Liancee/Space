@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>black-heart_1f5a4.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -95,6 +98,7 @@
     <None Include="Resources\sparklingheart60x60.png" />
     <None Include="Resources\brokenheart60x60.png" />
     <None Include="Resources\black-heart_1f5a4.ico" />
+    <Content Include="black-heart_1f5a4.ico" />
     <Content Include="Resources\blackheart60x60.png" />
     <None Include="Resources\redheart60x60.png" />
   </ItemGroup>
