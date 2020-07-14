@@ -38,10 +38,15 @@ namespace Space
 
             if (checkBox1.Checked)
             {
-                foreach (var drive in DriveInfo.GetDrives())
+                var folderBrowserDialog1 = new FolderBrowserDialog();
+                if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    FindVsSolutions(drive.Name);
+                    RemoveBinAndObjFolders(folderBrowserDialog1.SelectedPath);
                 }
+                //foreach (var drive in DriveInfo.GetDrives())
+                //{
+                //    FindVsSolutions(drive.Name);
+                //}
                 ShowResultAndExit();
             }
             else ShowResultAndExit();
@@ -69,27 +74,38 @@ namespace Space
             foreach (DirectoryInfo subDirectory in directory.GetDirectories()) subDirectory.Delete(true);
         }
 
-        private void FindVsSolutions(string driveName)
+        public void RemoveBinAndObjFolders(string basePath)
         {
-            var dirInfo = new DirectoryInfo(driveName);
-            foreach (var file in dirInfo.GetFiles())
+            foreach (var dir in Directory.GetDirectories(basePath, "*", SearchOption.AllDirectories).Where(x => x.EndsWith("\\obj") || x.EndsWith("\\bin")))
             {
-                if (file.Extension != ".sln")
-                    return;
-                DeleteBinObj(file);
+                FreedSpace += GetDirectorySize(dir);
+
+                Yellow(() => Console.Write($"{ dir } --> {  GetDirectorySize(dir) } Bytes"));
+                try
+                {
+                    Directory.Delete(dir, true);
+                    Green(() => Console.Write(" OK !"));
+                }
+                catch (Exception ex)
+                {
+                    Red(() => Console.Write($" FEHLER ! \r\n {ex.Message}"));
+                    //Error = true;
+                    break;
+                }
+                Console.WriteLine();
             }
         }
 
-        private void DeleteBinObj(FileInfo file)
-        {
-            foreach (var dir in file.Directory.GetDirectories())
-            {
-                if (dir.Name != "bin" || dir.Name != "obj")
-                    return;
-                FreedSpace += GetDirectorySize(dir.FullName);
-                dir.Delete(true);
-            }
-        }
+        //private void DeleteBinObj(FileInfo file)
+        //{
+        //    foreach (var dir in file.Directory.GetDirectories())
+        //    {
+        //        if (dir.Name != "bin" || dir.Name != "obj")
+        //            return;
+        //        FreedSpace += GetDirectorySize(dir.FullName);
+        //        dir.Delete(true);
+        //    }
+        //}
 
         private void ShowResultAndExit()
         {
@@ -128,5 +144,25 @@ namespace Space
         private void pictureBox1_MouseHover(object sender, EventArgs e) => pictureBox1.Image = Properties.Resources.redheart60x60;
         
         private void pictureBox1_MouseLeave(object sender, EventArgs e) => pictureBox1.Image = LastBitmap;
+
+        public static void Yellow(Action action) => Colored(ConsoleColor.Yellow, action);
+
+        public static void Red(Action action)
+        {
+            Colored(ConsoleColor.Red, action);
+        }
+
+        public static void Green(Action action)
+        {
+            Colored(ConsoleColor.Green, action);
+        }
+
+        public static void Colored(ConsoleColor color, Action action)
+        {
+            ConsoleColor old = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            action();
+            Console.ForegroundColor = old;
+        }
     }
 }
