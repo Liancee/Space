@@ -43,10 +43,6 @@ namespace Space
                 {
                     RemoveBinAndObjFolders(folderBrowserDialog1.SelectedPath);
                 }
-                //foreach (var drive in DriveInfo.GetDrives())
-                //{
-                //    FindVsSolutions(drive.Name);
-                //}
                 ShowResultAndExit();
             }
             else ShowResultAndExit();
@@ -95,17 +91,6 @@ namespace Space
                 Console.WriteLine();
             }
         }
-
-        //private void DeleteBinObj(FileInfo file)
-        //{
-        //    foreach (var dir in file.Directory.GetDirectories())
-        //    {
-        //        if (dir.Name != "bin" || dir.Name != "obj")
-        //            return;
-        //        FreedSpace += GetDirectorySize(dir.FullName);
-        //        dir.Delete(true);
-        //    }
-        //}
 
         private void ShowResultAndExit()
         {
